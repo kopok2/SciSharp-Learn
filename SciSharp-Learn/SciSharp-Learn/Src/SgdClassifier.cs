@@ -34,25 +34,47 @@ namespace SciSharp_Learn
         public void Fit(double[,] x, int[] y)
         {
             Console.WriteLine("Creating SGD Classifier with no of params:");
-            // Initialize beta params randomly
             
-            int betaParamsLength = x.Length / y.Length;
+            // Initialize beta params randomly
+            var betaParamsLength = x.Length / y.Length + 1;
             Console.WriteLine(betaParamsLength);
             BetaParam = new double[betaParamsLength];
             Random rand = new Random();
             double paramMax = 1;
-            for (int i = 0; i < betaParamsLength; i++)
+            for (var i = 0; i < betaParamsLength; i++)
             {
                 BetaParam[i] = rand.Next() % paramMax;
             }
+            // Add ones column to data
+            double[,] xNew = new double[y.Length,betaParamsLength];
+            for (int i = 0; i < y.Length; i++)
+            {
+                for (int j = 0; j < betaParamsLength - 1; j++)
+                {
+                    xNew[i, j] = x[i, j];
+                }
+
+                xNew[i, betaParamsLength - 1] = 1;
+            }
             // Perform Stochastic Gradient Descent
-            Sgd(x, y);
+            Sgd(xNew, y);
         }
 
         public int[] Predict(double[,] x)
         {
-            int resultLength = x.Length / BetaParam.Length;
-            double[] regression = Sigmoid(x, BetaParam);
+            int resultLength = x.Length / (BetaParam.Length - 1);
+            // Add ones column to data
+            double[,] xNew = new double[resultLength,BetaParam.Length];
+            for (int i = 0; i < resultLength; i++)
+            {
+                for (int j = 0; j < BetaParam.Length - 1; j++)
+                {
+                    xNew[i, j] = x[i, j];
+                }
+
+                xNew[i, BetaParam.Length - 1] = 1;
+            }
+            double[] regression = Sigmoid(xNew, BetaParam);
             int[] result = new int[resultLength];
             for (int i = 0; i < resultLength; i++)
             {
