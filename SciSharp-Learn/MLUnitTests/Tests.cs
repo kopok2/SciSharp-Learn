@@ -96,7 +96,9 @@ namespace SciSharp_Learn
         [Test]
         public void TestAccuracyUtil()
         {
-            Assert.AreEqual();
+            var predicted = new[] {1, 1, 0, 0};
+            var actual = new[] {1, 1, 1, 0};
+            Assert.AreEqual(Accuracy(predicted, actual), 0.75);
         }
         
         [Test]
