@@ -11,10 +11,5 @@ namespace SciSharp_Learn
         {
             throw new System.NotImplementedException();
         }
-
-        public double Score()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

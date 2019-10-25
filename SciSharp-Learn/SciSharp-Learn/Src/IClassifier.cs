@@ -4,6 +4,5 @@ namespace SciSharp_Learn
     {
         void Fit(double[,] x, int[] y);
         int[] Predict(double[,] x);
-        double Score();
     }
 }

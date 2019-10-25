@@ -90,10 +90,5 @@ namespace SciSharp_Learn
 
             return result;
         }
-
-        public double Score()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
