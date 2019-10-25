@@ -3,7 +3,7 @@ namespace SciSharp_Learn
     public interface IClassifier
     {
         void Fit();
-        int Predict();
+        int[] Predict();
         double Score();
     }
 }
