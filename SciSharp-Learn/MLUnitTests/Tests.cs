@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using static SciSharp_Learn.LinAlgUtils;
+using static SciSharp_Learn.LearningUtils;
 
 namespace SciSharp_Learn
 {
@@ -93,6 +94,12 @@ namespace SciSharp_Learn
         }
 
         [Test]
+        public void TestAccuracyUtil()
+        {
+            Assert.AreEqual();
+        }
+        
+        [Test]
         public void DatasetBenchmarkSgdTest()
         {
             const string path = "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/heart.csv";
@@ -123,28 +130,16 @@ namespace SciSharp_Learn
             var model = new SgdClassifier(epochs:100000, learningRate:0.01);
             model.Fit(xTrain, yTrain);
             Console.WriteLine("Training data:");
-            double correct = 0;
-            double incorrect = 0;
             var predicted = model.Predict(xTrain);
-            for (var i = 0; i < yTrain.Length; i++)
-            {
-                if (predicted[i] == yTrain[i])
-                {
-                    ++correct;
-                }
-                else
-                {
-                    ++incorrect;
-                }
-            }
             Console.WriteLine("Accuracy:");
-            Console.WriteLine(correct / (correct + incorrect));
+            double accuracy = Accuracy(predicted, yTrain);
+            Console.WriteLine(accuracy);
             Console.WriteLine("Beta params:");
             foreach(var item in model.BetaParam)
             {
                 Console.WriteLine(item.ToString(CultureInfo.InvariantCulture));
             }
-            Assert.Greater(correct / (correct + incorrect), 0.75);
+            Assert.Greater(accuracy, 0.75);
         }
     }
 }
