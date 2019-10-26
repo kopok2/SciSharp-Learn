@@ -5,6 +5,7 @@ using System.Linq;
 using NUnit.Framework;
 using static SciSharp_Learn.LinAlgUtils;
 using static SciSharp_Learn.LearningUtils;
+using static SciSharp_Learn.InformationTheoryUtils;
 
 namespace SciSharp_Learn
 {
@@ -142,6 +143,21 @@ namespace SciSharp_Learn
                 Console.WriteLine(item.ToString(CultureInfo.InvariantCulture));
             }
             Assert.Greater(accuracy, 0.75);
+        }
+
+        [Test]
+        public void TestEntropy()
+        {
+            double[] probabilities = {1.0, 0.0};
+            Assert.AreEqual(0,Entropy(probabilities));
+            probabilities = new[] {0.5, 0.5};
+            Assert.AreEqual(1,Entropy(probabilities));
+            probabilities = new[] {0.25, 0.25, 0.25, 0.25};
+            Assert.AreEqual(2,Entropy(probabilities));
+            probabilities = new double[] {0, 1};
+            Assert.AreEqual(0,Entropy(probabilities));
+            probabilities = new[] {0.642857142857143D, 0.357142857142857D};
+            Assert.AreEqual(0.940,Entropy(probabilities), 0.01);
         }
     }
 }
