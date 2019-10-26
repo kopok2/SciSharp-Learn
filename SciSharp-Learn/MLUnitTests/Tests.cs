@@ -159,5 +159,13 @@ namespace SciSharp_Learn
             probabilities = new[] {0.642857142857143D, 0.357142857142857D};
             Assert.AreEqual(0.940,Entropy(probabilities), 0.01);
         }
+
+        [Test]
+        public void TestProbabilities()
+        {
+            int[] y = {0, 0, 1, 0};
+            double[] probabilities = {0.75, 0.25};
+            Assert.AreEqual(probabilities,ProbabilityDistribution(y));
+        }
     }
 }
