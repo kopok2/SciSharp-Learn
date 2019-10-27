@@ -131,17 +131,12 @@ namespace SciSharp_Learn
                 yTrain[i] = (int)properties[i, 13];
             }
             var model = new SgdClassifier(epochs:100000, learningRate:0.01);
-            var model1 = new DecisionTreeClassifier();
             model.Fit(xTrain, yTrain);
-            model1.Fit(xTrain, yTrain);
             Console.WriteLine("Training data:");
             var predicted = model.Predict(xTrain);
-            var predicted1 = model1.Predict(xTrain);
             Console.WriteLine("Accuracy:");
             double accuracy = Accuracy(predicted, yTrain);
-            double accuracy1 = Accuracy(predicted1, yTrain);
             Console.WriteLine(accuracy);
-            Console.WriteLine(accuracy1);
             Console.WriteLine("Beta params:");
             foreach(var item in model.BetaParam)
             {
@@ -185,8 +180,8 @@ namespace SciSharp_Learn
         [Test]
         public void TestBestAttribute()
         {
-            int[,]x = new int[,]{{1,1},{1,2}};
-            int[]y = new int[]{0,1};
+            int[,]x = {{1,1},{1,2}};
+            int[]y = {0,1};
             Assert.AreEqual(1, BestAttribute(x, y));
         }
 
@@ -195,12 +190,14 @@ namespace SciSharp_Learn
         {
             IDecisionTreeNode first = new DecisionTreeLeafNode(2);
             DecisionTree tree = new DecisionTree(first);
-            Assert.AreEqual(2, tree.Classify(new int[]{1,2,3}));
-            IDecisionTreeNode[] tests = new IDecisionTreeNode[3] {new DecisionTreeLeafNode(0), 
+            Assert.AreEqual(2, tree.Classify(new[]{1,2,3}));
+            IDecisionTreeNode[] tests = new IDecisionTreeNode[]
+            {
+                new DecisionTreeLeafNode(0), new DecisionTreeLeafNode(0), 
                 new DecisionTreeLeafNode(1), new DecisionTreeLeafNode(2)};
             first = new DecisionTreeInternalNode(1, tests);
             tree = new DecisionTree(first);
-            int[][]x = new int[][]{new int[] {0, 0}, new int[] {0, 1}, new int[] {0, 2}};
+            int[][]x = {new[] {0, 0}, new[] {0, 1}, new[] {0, 2}};
             for (int i = 0; i < 3; i++)
             {
                 Assert.AreEqual(x[i][1], tree.Classify(x[i]));
@@ -210,27 +207,25 @@ namespace SciSharp_Learn
         [Test]
         public void TestDecisionTreeClassification()
         {
-            DecisionTreeClassifier decisionTreeClassifier = new DecisionTreeClassifier();
-            double[,]x = new Double[,]{{0,0},{0,1}};
-            int[]y = new int[]{0,1};
+            DecisionTreeClassifier decisionTreeClassifier = new DecisionTreeClassifier(5);
+            double[,]x = {{0,0},{0,1}};
+            int[]y = {0,1};
             decisionTreeClassifier.Fit(x, y);
             int[] prediction = decisionTreeClassifier.Predict(new double[,] {{0, 0}, {0, 1}});
-            PrintDataset(prediction);
-            Assert.AreEqual(new int[]{0, 1}, prediction);
+            Assert.AreEqual(new[]{0, 1}, prediction);
             x = new Double[,]{{0,0},{0,1},{0,2}};
-            y = new int[]{0,1,2};
+            y = new[]{0,1,2};
             decisionTreeClassifier.Fit(x, y);
             prediction = decisionTreeClassifier.Predict(new double[,] {{0, 0}, {0, 1}, {0, 2}});
-            PrintDataset(prediction);
-            Assert.AreEqual(new int[]{0, 1, 2}, prediction);
+            Assert.AreEqual(new[]{0, 1, 2}, prediction);
         }
 
         [Test]
         public void TestDiscreteFilter()
         {
-            double[,]x = new Double[,]{{0,0.12},{0,234}};
+            double[,]x = {{0,0.12},{0,234}};
             int[,] filtered = DiscreteFilter(x, 2, 2);
-            Assert.AreEqual(new int[,]{{0, 0}, {0, 1}}, filtered);
+            Assert.AreEqual(new[,]{{0, 0}, {0, 1}}, filtered);
         }
     }
 }

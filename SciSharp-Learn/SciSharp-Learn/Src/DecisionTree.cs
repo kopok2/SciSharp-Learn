@@ -13,7 +13,7 @@ namespace SciSharp_Learn
 
         public int Decide(int[] x)
         {
-            return _testNodes[x[_testingAttribute]].Decide(x);
+            return _testNodes[x[_testingAttribute] + 1].Decide(x);
         }
     }
 

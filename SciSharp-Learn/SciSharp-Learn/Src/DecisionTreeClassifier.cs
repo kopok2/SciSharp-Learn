@@ -9,6 +9,13 @@ namespace SciSharp_Learn
     {
         private DecisionTree _tree;
         private int _attributeCount;
+        private readonly int _discreteClasses;
+
+        public DecisionTreeClassifier(int discreteClasses)
+        {
+            _discreteClasses = discreteClasses;
+        }
+
         private static int MajorLabel(int[] y, int distinctLabelCount)
         {
             int[] labelCounts = new int[distinctLabelCount];
@@ -51,7 +58,6 @@ namespace SciSharp_Learn
                         return new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
                     }
                     attributes.Remove(attributeTest);
-                    IDecisionTreeNode root;
                     int attributeStateCount = 0;
                     for (int i = 0; i < y.Length; i++)
                     {
@@ -103,7 +109,7 @@ namespace SciSharp_Learn
                             tests[i] = IterativeDichotomiser3(subX[i], subY[i], attributes);
                         }
                     }
-                    root = new DecisionTreeInternalNode(attributeTest, tests);
+                    IDecisionTreeNode root = new DecisionTreeInternalNode(attributeTest, tests);
 
                     return root;
                 }
@@ -112,7 +118,7 @@ namespace SciSharp_Learn
         public void Fit(double[,] x, int[] y)
         {
             _attributeCount = x.Length / y.Length;
-            int[,] newX = DiscreteFilter(x, 5, _attributeCount);
+            int[,] newX = DiscreteFilter(x, _discreteClasses, _attributeCount);
             var attributes = new List<int>();
             for (int i = 0; i < _attributeCount; i++)
             {
@@ -124,7 +130,7 @@ namespace SciSharp_Learn
         public int[] Predict(double[,] x)
         {
             int[]result = new int[x.Length / _attributeCount];
-            int[,] newX = DiscreteFilter(x, 5, _attributeCount);
+            int[,] newX = DiscreteFilter(x, _discreteClasses, _attributeCount);
             for (int i = 0; i < x.Length / _attributeCount; i++)
             {
                 int[]sample = new int[_attributeCount];

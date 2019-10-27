@@ -8,14 +8,7 @@ namespace SciSharp_Learn
         public static double Entropy(double[] probabilities)
         {
             // Entropy = SUM(-pc * log2(pc))
-            double result = 0.0;
-            for (int i = 0; i < probabilities.Length; i++)
-            {
-                if (probabilities[i] > 0)
-                {
-                    result -= probabilities[i] * Math.Log(probabilities[i], 2);
-                }
-            }
+            double result = probabilities.Where(t => t > 0).Aggregate(0.0, (current, t) => current - t * Math.Log(t, 2));
 
             return Math.Abs(result);
         }
@@ -27,9 +20,9 @@ namespace SciSharp_Learn
             {
                 int discreteCount = y.Max() + 1;
                 result = new double[discreteCount];
-                for (int i = 0; i < y.Length; i++)
+                foreach (var t in y)
                 {
-                    ++result[y[i]];
+                    ++result[t];
                 }
     
                 for (int i = 0; i < discreteCount; i++)
