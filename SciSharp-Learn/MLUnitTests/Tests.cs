@@ -131,12 +131,17 @@ namespace SciSharp_Learn
                 yTrain[i] = (int)properties[i, 13];
             }
             var model = new SgdClassifier(epochs:100000, learningRate:0.01);
+            var model1 = new DecisionTreeClassifier();
             model.Fit(xTrain, yTrain);
+            model1.Fit(xTrain, yTrain);
             Console.WriteLine("Training data:");
             var predicted = model.Predict(xTrain);
+            var predicted1 = model1.Predict(xTrain);
             Console.WriteLine("Accuracy:");
             double accuracy = Accuracy(predicted, yTrain);
+            double accuracy1 = Accuracy(predicted1, yTrain);
             Console.WriteLine(accuracy);
+            Console.WriteLine(accuracy1);
             Console.WriteLine("Beta params:");
             foreach(var item in model.BetaParam)
             {
@@ -210,12 +215,22 @@ namespace SciSharp_Learn
             int[]y = new int[]{0,1};
             decisionTreeClassifier.Fit(x, y);
             int[] prediction = decisionTreeClassifier.Predict(new double[,] {{0, 0}, {0, 1}});
+            PrintDataset(prediction);
             Assert.AreEqual(new int[]{0, 1}, prediction);
             x = new Double[,]{{0,0},{0,1},{0,2}};
             y = new int[]{0,1,2};
             decisionTreeClassifier.Fit(x, y);
             prediction = decisionTreeClassifier.Predict(new double[,] {{0, 0}, {0, 1}, {0, 2}});
+            PrintDataset(prediction);
             Assert.AreEqual(new int[]{0, 1, 2}, prediction);
+        }
+
+        [Test]
+        public void TestDiscreteFilter()
+        {
+            double[,]x = new Double[,]{{0,0.12},{0,234}};
+            int[,] filtered = DiscreteFilter(x, 2, 2);
+            Assert.AreEqual(new int[,]{{0, 0}, {0, 1}}, filtered);
         }
     }
 }
