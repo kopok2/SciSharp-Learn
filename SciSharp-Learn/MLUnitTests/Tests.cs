@@ -184,5 +184,38 @@ namespace SciSharp_Learn
             int[]y = new int[]{0,1};
             Assert.AreEqual(1, BestAttribute(x, y));
         }
+
+        [Test]
+        public void TestDecisionTreeStructure()
+        {
+            IDecisionTreeNode first = new DecisionTreeLeafNode(2);
+            DecisionTree tree = new DecisionTree(first);
+            Assert.AreEqual(2, tree.Classify(new int[]{1,2,3}));
+            IDecisionTreeNode[] tests = new IDecisionTreeNode[3] {new DecisionTreeLeafNode(0), 
+                new DecisionTreeLeafNode(1), new DecisionTreeLeafNode(2)};
+            first = new DecisionTreeInternalNode(1, tests);
+            tree = new DecisionTree(first);
+            int[][]x = new int[][]{new int[] {0, 0}, new int[] {0, 1}, new int[] {0, 2}};
+            for (int i = 0; i < 3; i++)
+            {
+                Assert.AreEqual(x[i][1], tree.Classify(x[i]));
+            }
+        }
+
+        [Test]
+        public void TestDecisionTreeClassification()
+        {
+            DecisionTreeClassifier decisionTreeClassifier = new DecisionTreeClassifier();
+            double[,]x = new Double[,]{{0,0},{0,1}};
+            int[]y = new int[]{0,1};
+            decisionTreeClassifier.Fit(x, y);
+            int[] prediction = decisionTreeClassifier.Predict(new double[,] {{0, 0}, {0, 1}});
+            Assert.AreEqual(new int[]{0, 1}, prediction);
+            x = new Double[,]{{0,0},{0,1},{0,2}};
+            y = new int[]{0,1,2};
+            decisionTreeClassifier.Fit(x, y);
+            prediction = decisionTreeClassifier.Predict(new double[,] {{0, 0}, {0, 1}, {0, 2}});
+            Assert.AreEqual(new int[]{0, 1, 2}, prediction);
+        }
     }
 }
