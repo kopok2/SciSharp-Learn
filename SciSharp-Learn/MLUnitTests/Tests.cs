@@ -167,5 +167,22 @@ namespace SciSharp_Learn
             double[] probabilities = {0.75, 0.25};
             Assert.AreEqual(probabilities,ProbabilityDistribution(y));
         }
+
+        [Test]
+        public void TestInformationGain()
+        {
+            int[,]x = new int[,]{{1,1},{1,2}};
+            int[]y = new int[]{0,1};
+            Assert.AreEqual(0, InformationGain(x, y, 0));
+            Assert.AreEqual(1, InformationGain(x, y, 1));
+        }
+
+        [Test]
+        public void TestBestAttribute()
+        {
+            int[,]x = new int[,]{{1,1},{1,2}};
+            int[]y = new int[]{0,1};
+            Assert.AreEqual(1, BestAttribute(x, y));
+        }
     }
 }

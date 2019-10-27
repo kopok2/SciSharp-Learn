@@ -22,23 +22,87 @@ namespace SciSharp_Learn
 
         public static double[] ProbabilityDistribution(int[] y)
         {
-            int discreteCount = y.Max() + 1;
-            double[] result = new double[discreteCount];
-            for (int i = 0; i < y.Length; i++)
+            double[] result;
+            if(y.Length > 0)
             {
-                ++result[y[i]];
+                int discreteCount = y.Max() + 1;
+                result = new double[discreteCount];
+                for (int i = 0; i < y.Length; i++)
+                {
+                    ++result[y[i]];
+                }
+    
+                for (int i = 0; i < discreteCount; i++)
+                {
+                    result[i] /= y.Length;
+                }
             }
-
-            for (int i = 0; i < discreteCount; i++)
+            else
             {
-                result[i] /= y.Length;
+                result = new double[] {0};
             }
 
             return result;
         }
         public static double InformationGain(int[,]x, int[]y, int attribute)
         {
+            double baseEntropy = Entropy(ProbabilityDistribution(y));
+            double newEntropy = 0;
             
+            // Calculate attribute states
+            int attributeStateCount = 0;
+            for (int i = 0; i < y.Length; i++)
+            {
+                if (x[i, attribute] > attributeStateCount)
+                {
+                    attributeStateCount = x[i, attribute];
+                }
+            }
+            ++attributeStateCount;
+            
+            // Count attribute state occurence
+            int[] attributeStateOccurenceCount = new int[attributeStateCount];
+            for (int i = 0; i < y.Length; i++)
+            {
+                ++attributeStateOccurenceCount[x[i, attribute]];
+            }
+
+            // Count probability distribution estimates
+            int[][] probabilities = new int[attributeStateCount][];
+            for (int i = 0; i < attributeStateCount; i++)
+            {
+                probabilities[i] = new int[attributeStateOccurenceCount[i]];
+            }
+            int[] probabilitiesFillCount = new int[attributeStateCount];
+            for (int i = 0; i < y.Length; i++)
+            {
+                probabilities[x[i, attribute]][probabilitiesFillCount[x[i, attribute]++]] = y[i];
+            }
+
+            for (int i = 0; i < attributeStateCount; i++)
+            {
+                newEntropy += ((double)attributeStateOccurenceCount[i] / y.Length) * Entropy(ProbabilityDistribution(probabilities[i]));
+            }
+            
+            return baseEntropy - newEntropy;
+        }
+
+        public static int BestAttribute(int[,] x, int[] y)
+        {
+            int attributeCount = x.Length / y.Length;
+            double maxInformationGain = 0;
+            int resultAttribute = -1;
+            for (int i = 0; i < attributeCount; i++)
+            {
+                double attributeInformationGain = InformationGain(x, y, i);
+                if (attributeInformationGain > maxInformationGain)
+                {
+                    maxInformationGain = attributeInformationGain;
+                    resultAttribute = i;
+                }
+            }
+
+            return resultAttribute;
         }
     }
 }
