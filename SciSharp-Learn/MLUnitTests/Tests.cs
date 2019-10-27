@@ -144,6 +144,48 @@ namespace SciSharp_Learn
             }
             Assert.Greater(accuracy, 0.75);
         }
+        [Test]
+        public void DatasetBenchmarkSgdTest2()
+        {
+            const string path = "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/pulsar_stars.csv";
+            var lineCount = File.ReadLines(path).Count();
+            var reader = new StreamReader(File.OpenRead(path));
+            var properties = new double[lineCount,9];
+            for(var i2 = 0; i2 < lineCount; i2++)
+            {
+                var line = reader.ReadLine();
+                for(var i = 0; i < 9; i++)
+                {
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    properties[i2,i] = Convert.ToDouble(values[i]);
+                }
+            }
+            var xTrain = new double[lineCount, 8];
+            var yTrain = new int[lineCount];
+            for (var i = 0; i < lineCount; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    xTrain[i, j] = properties[i, j];
+                }
+
+                yTrain[i] = (int)properties[i, 8];
+            }
+            var model = new SgdClassifier(epochs:10000, learningRate:0.001);
+            model.Fit(xTrain, yTrain);
+            Console.WriteLine("Training data:");
+            var predicted = model.Predict(xTrain);
+            Console.WriteLine("Accuracy:");
+            double accuracy = Accuracy(predicted, yTrain);
+            Console.WriteLine(accuracy);
+            Console.WriteLine("Beta params:");
+            foreach(var item in model.BetaParam)
+            {
+                Console.WriteLine(item.ToString(CultureInfo.InvariantCulture));
+            }
+            Assert.Greater(accuracy, 0.75);
+        }
 
         [Test]
         public void TestEntropy()
@@ -226,6 +268,44 @@ namespace SciSharp_Learn
             double[,]x = {{0,0.12},{0,234}};
             int[,] filtered = DiscreteFilter(x, 2, 2);
             Assert.AreEqual(new[,]{{0, 0}, {0, 1}}, filtered);
+        }
+        
+        [Test]
+        public void DatasetBenchmarkDtTest2()
+        {
+            const string path = "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/pulsar_stars_short.csv";
+            var lineCount = File.ReadLines(path).Count();
+            var reader = new StreamReader(File.OpenRead(path));
+            var properties = new double[lineCount,9];
+            for(var i2 = 0; i2 < lineCount; i2++)
+            {
+                var line = reader.ReadLine();
+                for(var i = 0; i < 9; i++)
+                {
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    properties[i2,i] = Convert.ToDouble(values[i]);
+                }
+            }
+            var xTrain = new double[lineCount, 8];
+            var yTrain = new int[lineCount];
+            for (var i = 0; i < lineCount; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    xTrain[i, j] = properties[i, j];
+                }
+
+                yTrain[i] = (int)properties[i, 8];
+            }
+            var model = new DecisionTreeClassifier(5);
+            model.Fit(xTrain, yTrain);
+            Console.WriteLine("Training data:");
+            var predicted = model.Predict(xTrain);
+            Console.WriteLine("Accuracy:");
+            double accuracy = Accuracy(predicted, yTrain);
+            Console.WriteLine(accuracy);
+            Assert.Greater(accuracy, 0.75);
         }
     }
 }

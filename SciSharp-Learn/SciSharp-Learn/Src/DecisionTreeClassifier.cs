@@ -40,7 +40,11 @@ namespace SciSharp_Learn
         private static IDecisionTreeNode IterativeDichotomiser3(int[,] x, int[] y, List<int> attributes)
         {
             int distinctLabelCount = y.Distinct().Count();
-            if (distinctLabelCount == 1)
+            if (x.Length == 0)
+            {
+                return new DecisionTreeLeafNode(0);
+            }
+            else if (distinctLabelCount == 1)
             {
                 return new DecisionTreeLeafNode(y[0]);
             }
