@@ -50,8 +50,8 @@ namespace SciSharp_Learn
                 for (int j = 0; j < attributeCount; j++)
                 {
                     if (Math.Abs(valuesWidth[j]) > 0.001)
-                    { 
-                        converted[i, j] = (int) ((k - 1) * ((x[i, j] - minValues[j])/ valuesWidth[j]));
+                    {
+                        converted[i, j] = Math.Min((int) ((k - 1) * ((x[i, j] - minValues[j]) / valuesWidth[j])), k - 1);
                     }
                     else
                     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -172,7 +173,7 @@ namespace SciSharp_Learn
 
                 yTrain[i] = (int)properties[i, 8];
             }
-            var model = new SgdClassifier(epochs:10000, learningRate:0.001);
+            var model = new SgdClassifier(epochs:1000, learningRate:0.01);
             model.Fit(xTrain, yTrain);
             Console.WriteLine("Training data:");
             var predicted = model.Predict(xTrain);
@@ -224,7 +225,10 @@ namespace SciSharp_Learn
         {
             int[,]x = {{1,1},{1,2}};
             int[]y = {0,1};
-            Assert.AreEqual(1, BestAttribute(x, y));
+            List<int> attr = new List<int>();
+            attr.Add(0);
+            attr.Add(1);
+            Assert.AreEqual(1, BestAttribute(x, y, attr));
         }
 
         [Test]
@@ -271,32 +275,33 @@ namespace SciSharp_Learn
         }
         
         [Test]
-        public void DatasetBenchmarkDtTest2()
+        public void DatasetBenchmarkDtTest()
         {
-            const string path = "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/pulsar_stars_short.csv";
+            int featuresCount = 8;
+            const string path = "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/pulsar_stars.csv";
             var lineCount = File.ReadLines(path).Count();
             var reader = new StreamReader(File.OpenRead(path));
-            var properties = new double[lineCount,9];
+            var properties = new double[lineCount,featuresCount + 1];
             for(var i2 = 0; i2 < lineCount; i2++)
             {
                 var line = reader.ReadLine();
-                for(var i = 0; i < 9; i++)
+                for(var i = 0; i < featuresCount + 1; i++)
                 {
                     if (line == null) continue;
                     var values = line.Split(',');
                     properties[i2,i] = Convert.ToDouble(values[i]);
                 }
             }
-            var xTrain = new double[lineCount, 8];
+            var xTrain = new double[lineCount, featuresCount];
             var yTrain = new int[lineCount];
             for (var i = 0; i < lineCount; i++)
             {
-                for (var j = 0; j < 8; j++)
+                for (var j = 0; j < featuresCount; j++)
                 {
                     xTrain[i, j] = properties[i, j];
                 }
 
-                yTrain[i] = (int)properties[i, 8];
+                yTrain[i] = (int)properties[i, featuresCount];
             }
             var model = new DecisionTreeClassifier(5);
             model.Fit(xTrain, yTrain);
@@ -305,7 +310,46 @@ namespace SciSharp_Learn
             Console.WriteLine("Accuracy:");
             double accuracy = Accuracy(predicted, yTrain);
             Console.WriteLine(accuracy);
-            Assert.Greater(accuracy, 0.75);
+            Assert.Greater(accuracy, 0.65);
+        }
+        
+        [Test]
+        public void DatasetBenchmarkDtTest2()
+        {
+            int featuresCount = 13;
+            const string path = "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/heart.csv";
+            var lineCount = File.ReadLines(path).Count();
+            var reader = new StreamReader(File.OpenRead(path));
+            var properties = new double[lineCount,featuresCount + 1];
+            for(var i2 = 0; i2 < lineCount; i2++)
+            {
+                var line = reader.ReadLine();
+                for(var i = 0; i < featuresCount + 1; i++)
+                {
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    properties[i2,i] = Convert.ToDouble(values[i]);
+                }
+            }
+            var xTrain = new double[lineCount, featuresCount];
+            var yTrain = new int[lineCount];
+            for (var i = 0; i < lineCount; i++)
+            {
+                for (var j = 0; j < featuresCount; j++)
+                {
+                    xTrain[i, j] = properties[i, j];
+                }
+
+                yTrain[i] = (int)properties[i, featuresCount];
+            }
+            var model = new DecisionTreeClassifier(20);
+            model.Fit(xTrain, yTrain);
+            Console.WriteLine("Training data:");
+            var predicted = model.Predict(xTrain);
+            Console.WriteLine("Accuracy:");
+            double accuracy = Accuracy(predicted, yTrain);
+            Console.WriteLine(accuracy);
+            Assert.Greater(accuracy, 0.65);
         }
     }
 }

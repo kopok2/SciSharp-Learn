@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SciSharp_Learn
@@ -80,18 +81,21 @@ namespace SciSharp_Learn
             return baseEntropy - newEntropy;
         }
 
-        public static int BestAttribute(int[,] x, int[] y)
+        public static int BestAttribute(int[,] x, int[] y, List<int> attributes)
         {
             int attributeCount = x.Length / y.Length;
             double maxInformationGain = 0;
             int resultAttribute = -1;
             for (int i = 0; i < attributeCount; i++)
             {
-                double attributeInformationGain = InformationGain(x, y, i);
-                if (attributeInformationGain > maxInformationGain)
+                if (attributes.Contains(i))
                 {
-                    maxInformationGain = attributeInformationGain;
-                    resultAttribute = i;
+                    double attributeInformationGain = InformationGain(x, y, i);
+                    if (attributeInformationGain > maxInformationGain)
+                    {
+                        maxInformationGain = attributeInformationGain;
+                        resultAttribute = i;
+                    }
                 }
             }
 

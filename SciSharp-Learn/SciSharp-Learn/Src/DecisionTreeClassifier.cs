@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static SciSharp_Learn.InformationTheoryUtils;
@@ -9,7 +10,7 @@ namespace SciSharp_Learn
     {
         private DecisionTree _tree;
         private int _attributeCount;
-        private readonly int _discreteClasses;
+        private static int _discreteClasses;
 
         public DecisionTreeClassifier(int discreteClasses)
         {
@@ -56,7 +57,7 @@ namespace SciSharp_Learn
                 }
                 else
                 {
-                    int attributeTest = BestAttribute(x, y);
+                    int attributeTest = BestAttribute(x, y, attributes);
                     if (attributeTest == -1)
                     {
                         return new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
@@ -72,6 +73,7 @@ namespace SciSharp_Learn
                     }
 
                     ++attributeStateCount;
+                    attributeStateCount = Math.Max(_discreteClasses * 2, attributeStateCount);
 
                     // Split data
                     int[][,]subX = new int[attributeStateCount][,];
@@ -110,7 +112,7 @@ namespace SciSharp_Learn
                         }
                         else
                         {
-                            tests[i] = IterativeDichotomiser3(subX[i], subY[i], attributes);
+                            tests[i] = IterativeDichotomiser3(subX[i], subY[i], attributes.GetRange(0, attributes.Count));
                         }
                     }
                     IDecisionTreeNode root = new DecisionTreeInternalNode(attributeTest, tests);
