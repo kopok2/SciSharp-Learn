@@ -20,9 +20,9 @@ namespace SciSharp_Learn
         private static int MajorLabel(int[] y, int distinctLabelCount)
         {
             int[] labelCounts = new int[distinctLabelCount];
-            for (int i = 0; i < y.Length; i++)
+            foreach (var t in y)
             {
-                labelCounts[y[i] - y.Min()]++;
+                labelCounts[t - y.Min()]++;
             }
 
             int maxLabelCount = 0;
