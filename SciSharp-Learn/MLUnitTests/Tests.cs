@@ -7,6 +7,7 @@ using NUnit.Framework;
 using static SciSharp_Learn.LinAlgUtils;
 using static SciSharp_Learn.LearningUtils;
 using static SciSharp_Learn.InformationTheoryUtils;
+using static SciSharp_Learn.RegressionTreeStump;
 
 namespace SciSharp_Learn
 {
@@ -367,6 +368,14 @@ namespace SciSharp_Learn
             double accuracy = Accuracy(predicted, yTrain);
             Console.WriteLine(accuracy);
             Assert.Greater(accuracy, 0.65);
+        }
+
+        [Test]
+        public void TestRegressionTreeStump()
+        {
+            double[] x = new double[] {0, 1, 2, 3};
+            double[] y = new double[] {1, 1, 2, 2};
+            Assert.AreEqual(new double[] {1.5, 1, 2}, Regression(x, y));
         }
     }
 }
