@@ -377,5 +377,28 @@ namespace SciSharp_Learn
             double[] y = new double[] {1, 1, 2, 2};
             Assert.AreEqual(new double[] {1.5, 1, 2}, Regression(x, y));
         }
+
+        [Test]
+        public void TestDatasetRegressionPreprocess()
+        {
+            double[,] x = new double[,]{{0, 1}, {2, 3}, {0, 4}};
+            Assert.AreEqual(new double[][][] {new double[][]{new double[] {0, 0, 2}, new double[] {0, 2, 1}}, new double[][]{new double[]{1, 3, 4}, new double[]{0, 1, 2}  }}, SciSharp_Learn.AcceleratedGradientBoostingClassifier.RegressDataset(x, 3));
+        }
+
+        [Test]
+        public void TestAcceleratedGradientBoostingClassifier()
+        {
+            AcceleratedGradientBoostingClassifier agbc = new AcceleratedGradientBoostingClassifier(50, 0.8);
+            double[,] x = new double[,]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}};
+            int[] y = new int[] {1, 2, 3, 4};
+            agbc.Fit(x, y);
+            PrintDataset(agbc.Predict(x));
+            PrintDataset(agbc.Regress(x));
+            int[] prediction = agbc.Predict(x);
+            Console.WriteLine("Accuracy:");
+            double accuracy = Accuracy(prediction, y);
+            Console.WriteLine(accuracy);
+            Assert.AreEqual(accuracy, 1.0);
+        }
     }
 }

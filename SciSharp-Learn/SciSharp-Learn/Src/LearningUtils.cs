@@ -83,5 +83,21 @@ namespace SciSharp_Learn
             }
             Console.Write("\n");
         }
+        public static void PrintDataset<T>(T[][][] dataset, int firstDim, int secondDim, int thirdDim)
+        {
+            for (int i = 0; i < firstDim; i++)
+            {
+                for (int j = 0; j < secondDim; j++)
+                {
+                    for (int k = 0; k < thirdDim; k++)
+                    {
+                        Console.Write(dataset[i][j][k] + " ");
+                    }
+
+                    Console.Write("\n");
+                }
+                Console.Write("\n");
+            }
+        }
     }
 }
