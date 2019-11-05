@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using static System.Math;
 
 namespace SciSharp_Learn
 {
@@ -20,6 +20,7 @@ namespace SciSharp_Learn
 
             return result;
         }
+
         public static double[] Sigmoid(double[,] x, double[] beta)
         {
             var resultLength = x.Length / beta.Length;
@@ -27,7 +28,7 @@ namespace SciSharp_Learn
             var reg = DotMatrixVector(x, beta);
             for (var i = 0; i < resultLength; i++)
             {
-                result[i] = 1 / (1 + Math.Exp(-reg[i]));
+                result[i] = 1 / (1 + Exp(-reg[i]));
             }
 
             return result;
@@ -47,11 +48,12 @@ namespace SciSharp_Learn
 
             return result;
         }
+
         public static double[] LogisticGradient(double[,] x, double[] beta, double[] y)
         {
-            double[] sigmoid = Sigmoid(x, beta);
-            double[] a = new double[y.Length];
-            for (int i = 0; i < y.Length; i++)
+            var sigmoid = Sigmoid(x, beta);
+            var a = new double[y.Length];
+            for (var i = 0; i < y.Length; i++)
             {
                 a[i] = sigmoid[i] - y[i];
             }
@@ -61,7 +63,7 @@ namespace SciSharp_Learn
 
         public static double MeanSquaredError(double[] prediction, double[] actual)
         {
-            return actual.Select((t, i) => Math.Pow((prediction[i] - t), 2)).Sum();
+            return actual.Select((t, i) => Pow((prediction[i] - t), 2)).Sum();
         }
     }
 }

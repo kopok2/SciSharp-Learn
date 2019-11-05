@@ -1,81 +1,106 @@
 using System;
 using System.Linq;
-using System.Management.Instrumentation;
 using static SciSharp_Learn.LearningUtils;
 using static SciSharp_Learn.RegressionTreeStump;
 
+/*
+ Module implements State-of-the-Art classification and regression machine learning algorithm -
+   Accelerated Gradient Boosting.
+   
+   Research source:
+   link: https://arxiv.org/pdf/1803.02042.pdf
+   
+   Abstract:
+   Gradient tree boosting is a prediction algorithm that sequentially produces a model in the form of
+   linear combinations of decision trees, by solving an infinite-dimensional optimization problem.
+   We combine gradient boosting and Nesterov’s accelerated descent to design a new algorithm,
+   which we callAGB(for Accelerated Gradient Boosting).
+   Substantial numerical evidence is provided on both synthetic and real-life data sets
+   to assess the excellent performance of the method in a large variety of prediction problems.
+   It is empirically shown that AGBis much less sensitive to the shrinkage parameter
+   and outputs predictors that are considerably more sparse in the number of trees,
+   while retaining the exceptional performance of gradient boosting.
+
+    Implementation by Karol Oleszek 2019
+   */
 namespace SciSharp_Learn
 {
     public class AcceleratedGradientBoostingClassifier : IClassifier
     {
-        private int _epochs;
-        private double _shrinkage;
-        private double[,] _model;
-        private double[] _gamma_param;
+        private readonly int _epochs;
+        private readonly double _shrinkage;
+        private readonly double[,] _model;
+        private readonly double[] _gammaParam;
         private int _paramCount;
 
         public AcceleratedGradientBoostingClassifier(int epochs, double shrinkage)
         {
             _epochs = epochs;
             _shrinkage = shrinkage;
-            _gamma_param = new double[epochs + 1];
+            _gammaParam = new double[epochs + 1];
             _model = new double[epochs + 1, 5];
         }
 
         public void Fit(double[,] x, int[] y)
         {
             _paramCount = x.Length / y.Length;
-            double lambdaNew = 0;
             double lambdaOld = 0;
             double gamma = 1;
-            _gamma_param[0] = gamma;
-            double mean = (double) y.Sum() / y.Length;
+            _gammaParam[0] = gamma;
+            var mean = (double) y.Sum() / y.Length;
             var gradient = new double[y.Length];
-            for (int i = 0; i < y.Length; i++)
+            for (var i = 0; i < y.Length; i++)
             {
                 gradient[i] = -mean;
             }
 
 
-            double[][][] regressionSources = RegressDataset(x, y.Length);
+            var regressionSources = RegressDataset(x, y.Length);
             PrintDataset(regressionSources, x.Length / y.Length, 2, y.Length);
             _model[0, 0] = 0;
             _model[0, 1] = 0;
             _model[0, 2] = mean;
             _model[0, 3] = mean;
             _model[0, 4] = 1;
-            int testing = 0;
-            double[] zVal = new double[y.Length];
-            for (int i = 0; i < y.Length; i++)
+            var testing = 0;
+            var zVal = new double[y.Length];
+            for (var i = 0; i < y.Length; i++)
             {
                 zVal[i] = y[i];
             }
-            for (int i = 0; i < _epochs; i++)
+
+            var loss = double.MaxValue;
+            for (var i = 0; i < _epochs; i++)
             {
                 Console.WriteLine("Epoch:");
                 Console.WriteLine(i + 1);
-                PrintDataset(zVal);
-                PrintDataset(gradient);
-                //PrintDataset(_model, 5);
-                // Compute Z
-                for (int j = 0; j < y.Length; j++)
+                Console.WriteLine(zVal.Sum());
+                if (zVal.Sum() > loss)
                 {
-                    double[] sample = new double[x.Length / y.Length];
-                    for (int k = 0; k < x.Length / y.Length; k++)
+                    break;
+                }
+
+                loss = Math.Abs(zVal.Sum());
+                // Compute Z
+                for (var j = 0; j < y.Length; j++)
+                {
+                    var sample = new double[x.Length / y.Length];
+                    for (var k = 0; k < x.Length / y.Length; k++)
                     {
                         sample[k] = x[j, k];
                     }
 
                     zVal[j] = y[j] - Infer(sample, i);
                 }
+
                 // Fit regression tree
-                double[] yLoc = new double[y.Length];
-                for (int j = 0; j < y.Length; j++)
+                var yLoc = new double[y.Length];
+                for (var j = 0; j < y.Length; j++)
                 {
                     yLoc[j] = zVal[(int) regressionSources[testing][1][j]];
                 }
 
-                double[] newTree = Regression(regressionSources[testing][0], yLoc);
+                var newTree = Regression(regressionSources[testing][0], yLoc);
                 ++testing;
                 if (testing >= x.Length / y.Length)
                 {
@@ -86,37 +111,34 @@ namespace SciSharp_Learn
                 _model[i + 1, 1] = newTree[0];
                 _model[i + 1, 2] = newTree[1];
                 _model[i + 1, 3] = newTree[2];
-                
-                // Update
 
-                
-                lambdaNew = (1 + Math.Sqrt(1 + 4 * (Math.Pow(lambdaOld, 2)))) / 2;
+                // Update
+                var lambdaNew = (1 + Math.Sqrt(1 + 4 * (Math.Pow(lambdaOld, 2)))) / 2;
                 gamma = (1 - lambdaOld) / lambdaNew;
                 lambdaOld = lambdaNew;
-                _gamma_param[i + 1] = gamma;
+                _gammaParam[i + 1] = gamma;
             }
-
         }
 
         public static double[][][] RegressDataset(double[,] x, int dataLength)
         {
-            double[][][] regressionSources = new double[x.Length / dataLength][][];
-            for (int i = 0; i < x.Length / dataLength; i++)
+            var regressionSources = new double[x.Length / dataLength][][];
+            for (var i = 0; i < x.Length / dataLength; i++)
             {
                 regressionSources[i] = new double[2][];
-                for (int j = 0; j < 2; j++)
+                for (var j = 0; j < 2; j++)
                 {
                     regressionSources[i][j] = new double[dataLength];
                     if (j == 1)
                     {
-                        for (int k = 0; k < dataLength; k++)
+                        for (var k = 0; k < dataLength; k++)
                         {
                             regressionSources[i][j][k] = k;
                         }
                     }
                     else
                     {
-                        for (int k = 0; k < dataLength; k++)
+                        for (var k = 0; k < dataLength; k++)
                         {
                             regressionSources[i][j][k] = x[k, i];
                         }
@@ -131,11 +153,11 @@ namespace SciSharp_Learn
 
         public int[] Predict(double[,] x)
         {
-            int[] result = new int[x.Length / _paramCount];
-            for (int j = 0; j < x.Length / _paramCount; j++)
+            var result = new int[x.Length / _paramCount];
+            for (var j = 0; j < x.Length / _paramCount; j++)
             {
-                double[] sample = new double[_paramCount];
-                for (int k = 0; k < _paramCount; k++)
+                var sample = new double[_paramCount];
+                for (var k = 0; k < _paramCount; k++)
                 {
                     sample[k] = x[j, k];
                 }
@@ -148,51 +170,38 @@ namespace SciSharp_Learn
 
         public double[] Regress(double[,] x)
         {
-            double[] result = new double[x.Length / _paramCount];
-            for (int j = 0; j < x.Length / _paramCount; j++)
+            var result = new double[x.Length / _paramCount];
+            for (var j = 0; j < x.Length / _paramCount; j++)
             {
-                double[] sample = new double[_paramCount];
-                for (int k = 0; k < _paramCount; k++)
+                var sample = new double[_paramCount];
+                for (var k = 0; k < _paramCount; k++)
                 {
                     sample[k] = x[j, k];
                 }
+
                 result[j] = Infer(sample, _epochs);
             }
 
             return result;
         }
 
-        public double Infer(double[] sample, int inferBound, bool useG = false)
+        private double Infer(double[] sample, int inferBound, bool useG = false)
         {
-            double ft = _model[0, 2];
-            double gt = _model[0, 2];
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            var ft = _model[0, 2];
+            var gt = _model[0, 2];
             double ft1 = 0;
             double gt1 = 0;
-            double treeReg;
-            for (int i = 0; i < inferBound; i++)
+            for (var i = 0; i < inferBound; i++)
             {
-                if (sample[(int) _model[i + 1, 0]] < _model[i + 1, 1])
-                {
-                    treeReg = _model[i + 1, 2];
-                }
-                else
-                {
-                    treeReg = _model[i + 1, 3];
-                }
+                var treeReg = sample[(int) _model[i + 1, 0]] < _model[i + 1, 1] ? _model[i + 1, 2] : _model[i + 1, 3];
                 ft1 = gt + _shrinkage * treeReg;
-                gt1 = (1 - _gamma_param[i + 1]) * ft1 + _gamma_param[i + 1] * ft;
+                gt1 = (1 - _gammaParam[i + 1]) * ft1 + _gammaParam[i + 1] * ft;
                 gt = gt1;
                 ft = ft1;
             }
 
-            if (!useG)
-            {
-                return ft1;
-            }
-            else
-            {
-                return gt1;
-            }
+            return !useG ? ft1 : gt1;
         }
     }
 }

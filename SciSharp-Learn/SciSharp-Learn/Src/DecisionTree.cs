@@ -23,7 +23,7 @@ namespace SciSharp_Learn
 
         public DecisionTreeLeafNode(int leafDecision)
         {
-            this._leafDecision = leafDecision;
+            _leafDecision = leafDecision;
         }
 
         public int Decide(int[] x)
@@ -31,13 +31,14 @@ namespace SciSharp_Learn
             return _leafDecision;
         }
     }
+
     public class DecisionTree
     {
         private readonly IDecisionTreeNode _root;
 
         public DecisionTree(IDecisionTreeNode root)
         {
-            this._root = root;
+            _root = root;
         }
 
         public int Classify(int[] x)
