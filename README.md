@@ -9,17 +9,11 @@ Implement Machine Learning and Deep Learning algorithms in C#.
 -  K-Nearest Neighbors
 -  Logistic Regression
 -  Decision Trees
--  Gradient Boosting Tree Ensemble
+-  Accelerated Gradient Boosting Tree Ensemble
 -  Multi layer perceptron
 
 
 ## Project components
 
--  Scikit-learn like interface (fit, predict, etc. methods)
+-  Scikit-learn like interface (fit, predict methods)
 -  Unified classifier model
-
-## Code quality project guidelines
-
--  Highest possible test coverage
--  No warning/error builds
--  Conforming to code styling standards
