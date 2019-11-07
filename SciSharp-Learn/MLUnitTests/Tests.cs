@@ -202,6 +202,53 @@ namespace SciSharp_Learn
 
             Greater(accuracy, 0.75);
         }
+        
+        [Test]
+        public void DatasetBenchmarkSgdTest3()
+        {
+            const string path =
+                "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/ldp.csv";
+            var lineCount = File.ReadLines(path).Count();
+            var reader = new StreamReader(File.OpenRead(path));
+            var properties = new double[lineCount, 22];
+            for (var i2 = 0; i2 < lineCount; i2++)
+            {
+                var line = reader.ReadLine();
+                for (var i = 0; i < 22; i++)
+                {
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    properties[i2, i] = Convert.ToDouble(values[i]);
+                }
+            }
+
+            var xTrain = new double[lineCount, 21];
+            var yTrain = new int[lineCount];
+            for (var i = 0; i < lineCount; i++)
+            {
+                for (var j = 0; j < 21; j++)
+                {
+                    xTrain[i, j] = properties[i, j];
+                }
+
+                yTrain[i] = (int) properties[i, 21];
+            }
+
+            var model = new SgdClassifier(epochs: 10000, learningRate: 0.005);
+            model.Fit(xTrain, yTrain);
+            WriteLine("Training data:");
+            var predicted = model.Predict(xTrain);
+            WriteLine("Accuracy:");
+            var accuracy = Accuracy(predicted, yTrain);
+            WriteLine(accuracy);
+            WriteLine("Beta params:");
+            foreach (var item in model.BetaParam)
+            {
+                WriteLine(item.ToString(CultureInfo.InvariantCulture));
+            }
+
+            Greater(accuracy, 0.75);
+        }
 
         [Test]
         public void TestEntropy()
@@ -375,6 +422,48 @@ namespace SciSharp_Learn
             WriteLine(accuracy);
             Greater(accuracy, 0.65);
         }
+        
+        [Test]
+        public void DatasetBenchmarkDtTest3()
+        {
+            const string path =
+                "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/ldp.csv";
+            var lineCount = File.ReadLines(path).Count();
+            var reader = new StreamReader(File.OpenRead(path));
+            var properties = new double[lineCount, 22];
+            for (var i2 = 0; i2 < lineCount; i2++)
+            {
+                var line = reader.ReadLine();
+                for (var i = 0; i < 22; i++)
+                {
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    properties[i2, i] = Convert.ToDouble(values[i]);
+                }
+            }
+
+            var xTrain = new double[lineCount, 21];
+            var yTrain = new int[lineCount];
+            for (var i = 0; i < lineCount; i++)
+            {
+                for (var j = 0; j < 21; j++)
+                {
+                    xTrain[i, j] = properties[i, j];
+                }
+
+                yTrain[i] = (int) properties[i, 21];
+            }
+
+            var model = new DecisionTreeClassifier(20);
+            model.Fit(xTrain, yTrain);
+            WriteLine("Training data:");
+            var predicted = model.Predict(xTrain);
+            WriteLine("Accuracy:");
+            var accuracy = Accuracy(predicted, yTrain);
+            WriteLine(accuracy);
+
+            Greater(accuracy, 0.75);
+        }
 
         [Test]
         public void TestRegressionTreeStump()
@@ -494,6 +583,47 @@ namespace SciSharp_Learn
             var accuracy = Accuracy(predicted, yTrain);
             WriteLine(accuracy);
             
+            Greater(accuracy, 0.75);
+        }
+        [Test]
+        public void DatasetBenchmarkAgbcTest3()
+        {
+            const string path =
+                "/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/BenchmarkDatasets/ldp.csv";
+            var lineCount = File.ReadLines(path).Count();
+            var reader = new StreamReader(File.OpenRead(path));
+            var properties = new double[lineCount, 22];
+            for (var i2 = 0; i2 < lineCount; i2++)
+            {
+                var line = reader.ReadLine();
+                for (var i = 0; i < 22; i++)
+                {
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    properties[i2, i] = Convert.ToDouble(values[i]);
+                }
+            }
+
+            var xTrain = new double[lineCount, 21];
+            var yTrain = new int[lineCount];
+            for (var i = 0; i < lineCount; i++)
+            {
+                for (var j = 0; j < 21; j++)
+                {
+                    xTrain[i, j] = properties[i, j];
+                }
+
+                yTrain[i] = (int) properties[i, 21];
+            }
+
+            var model = new AcceleratedGradientBoostingClassifier(epochs: 100, shrinkage: 0.9);
+            model.Fit(xTrain, yTrain);
+            WriteLine("Training data:");
+            var predicted = model.Predict(xTrain);
+            WriteLine("Accuracy:");
+            var accuracy = Accuracy(predicted, yTrain);
+            WriteLine(accuracy);
+
             Greater(accuracy, 0.75);
         }
     }
