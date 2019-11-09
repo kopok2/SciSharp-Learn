@@ -1,0 +1,17 @@
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttribute.cs
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/SciSharp_Learn.pdb
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/SciSharp_Learn.exe
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/obj/Debug/SciSharp_Learn.exe
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/obj/Debug/SciSharp_Learn.pdb
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/obj/Debug/.NETFramework,Version=v4.7.AssemblyAttribute.cs
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/Numpy.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/Python.Included.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/Python.Runtime.NETStandard.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/Google.Protobuf.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/NumSharp.Core.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/System.Buffers.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/System.Memory.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/System.Numerics.Vectors.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/System.Runtime.CompilerServices.Unsafe.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/SciSharp-Learn/bin/Debug/TensorFlow.NET.dll

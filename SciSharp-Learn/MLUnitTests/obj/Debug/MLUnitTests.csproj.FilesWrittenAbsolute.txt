@@ -1,0 +1,9 @@
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttribute.cs
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/bin/Debug/MLUnitTests.pdb
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/bin/Debug/MLUnitTests.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/obj/Debug/MLUnitTests.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/obj/Debug/MLUnitTests.pdb
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/bin/Debug/nunit.framework.dll
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/bin/Debug/SciSharp_Learn.exe
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/bin/Debug/SciSharp_Learn.pdb
+/home/karol_oleszek/Projects/SciSharpLearn/SciSharp-Learn/SciSharp-Learn/MLUnitTests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs

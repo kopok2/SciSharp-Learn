@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.Rider2019.2/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.2/system/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_SciSharp-Learn.50414540.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="MLUnitTests" t="IncludeRecursive">
+        <e p="BenchmarkDatasets" t="Include">
+          <e p="heart.csv" t="Include" />
+          <e p="ldp.csv" t="Include" />
+          <e p="pulsar_stars.csv" t="Include" />
+          <e p="pulsar_stars_short.csv" t="Include" />
+        </e>
+        <e p="MLUnitTests.csproj" t="IncludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Tests.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+      </e>
+      <e p="SciSharp-Learn" t="IncludeRecursive">
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="SciSharp-Learn.csproj" t="IncludeRecursive" />
+        <e p="Src" t="Include">
+          <e p="AcceleratedGradientBoostingClassifier.cs" t="Include" />
+          <e p="DecisionTree.cs" t="Include" />
+          <e p="DecisionTreeClassifier.cs" t="Include" />
+          <e p="IClassifier.cs" t="Include" />
+          <e p="IDecisionTreeNode.cs" t="Include" />
+          <e p="InformationTheoryUtils.cs" t="Include" />
+          <e p="LearningUtils.cs" t="Include" />
+          <e p="LinAlgUtils.cs" t="Include" />
+          <e p="RegressionTreeStump.cs" t="Include" />
+          <e p="SgdClassifier.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+      </e>
+      <e p="SciSharp-Learn.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
