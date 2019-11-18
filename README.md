@@ -10,7 +10,7 @@ Implement Machine Learning and Deep Learning algorithms in C#.
 -  Logistic Regression
 -  Decision Trees
 -  Accelerated Gradient Boosting Tree Ensemble
--  Multi layer perceptron
+-  Multi Layered Perceptron
 
 
 ## Project components
