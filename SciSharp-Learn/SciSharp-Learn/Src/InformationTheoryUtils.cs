@@ -36,7 +36,7 @@ namespace SciSharp_Learn
             }
             else
             {
-                result = new double[] {0};
+                result = new double[] { 0 };
             }
 
             return result;
@@ -81,7 +81,7 @@ namespace SciSharp_Learn
 
             for (var i = 0; i < attributeStateCount; i++)
             {
-                newEntropy += ((double) attributeStateOccurenceCount[i] / y.Length) *
+                newEntropy += ((double)attributeStateOccurenceCount[i] / y.Length) *
                               Entropy(ProbabilityDistribution(probabilities[i]));
             }
 

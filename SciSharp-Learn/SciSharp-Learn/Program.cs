@@ -1,10 +1,11 @@
-﻿namespace SciSharp_Learn
+﻿using System;
+
+
+internal class Program
 {
-    internal class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            System.Console.Write("SCI SHARP");
-        }
+        System.Console.Write("SCI SHARP");
+        Console.ReadKey();
     }
 }

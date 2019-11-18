@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/SciSharp-Learn/.vs/SciSharp-Learn/v16
+/SciSharp-Learn/TestResults/52b64767-a325-413b-a068-890f62a1321b

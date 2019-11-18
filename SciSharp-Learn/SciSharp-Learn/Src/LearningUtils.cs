@@ -11,7 +11,7 @@ namespace SciSharp_Learn
         {
             var correct = actual.Where((t, i) => predicted[i] == t).Count();
 
-            return ((double) correct) / actual.Length;
+            return ((double)correct) / actual.Length;
         }
 
         public static int[,] DiscreteFilter(double[,] x, int k, int attributeCount)
@@ -54,7 +54,7 @@ namespace SciSharp_Learn
                 {
                     if (Abs(valuesWidth[j]) > 0.001)
                     {
-                        converted[i, j] = Min((int) ((k - 1) * ((x[i, j] - minValues[j]) / valuesWidth[j])),
+                        converted[i, j] = Min((int)((k - 1) * ((x[i, j] - minValues[j]) / valuesWidth[j])),
                             k - 1);
                     }
                     else

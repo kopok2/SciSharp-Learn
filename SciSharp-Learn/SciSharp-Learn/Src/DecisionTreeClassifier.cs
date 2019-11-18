@@ -50,78 +50,78 @@ namespace SciSharp_Learn
                 case 1:
                     return new DecisionTreeLeafNode(y[0]);
                 default:
-                {
-                    if (attributes.Count == 0)
                     {
-                        return new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
-                    }
-
-                    var attributeTest = BestAttribute(x, y, attributes);
-                    if (attributeTest == -1)
-                    {
-                        return new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
-                    }
-
-                    attributes.Remove(attributeTest);
-                    var attributeStateCount = 0;
-                    for (var i = 0; i < y.Length; i++)
-                    {
-                        if (x[i, attributeTest] > attributeStateCount)
+                        if (attributes.Count == 0)
                         {
-                            attributeStateCount = x[i, attributeTest];
-                        }
-                    }
-
-                    ++attributeStateCount;
-                    attributeStateCount = Math.Max(_discreteClasses * 2, attributeStateCount);
-
-                    // Split data
-                    var subX = new int[attributeStateCount][,];
-                    var subY = new int[attributeStateCount][];
-                    var attributeSubXCount = new int[attributeStateCount];
-                    for (var i = 0; i < y.Length; i++)
-                    {
-                        ++attributeSubXCount[x[i, attributeTest]];
-                    }
-
-                    var attributeLength = x.Length / y.Length;
-                    for (var i = 0; i < attributeStateCount; i++)
-                    {
-                        subX[i] = new int[attributeSubXCount[i], attributeLength];
-                        subY[i] = new int[attributeSubXCount[i]];
-                    }
-
-                    var subXAttributeFormCount = new int[attributeStateCount];
-                    for (var i = 0; i < y.Length; i++)
-                    {
-                        for (var j = 0; j < attributeLength; j++)
-                        {
-                            subX[x[i, attributeTest]][subXAttributeFormCount[x[i, attributeTest]], j] = x[i, j];
+                            return new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
                         }
 
-                        subY[x[i, attributeTest]][subXAttributeFormCount[x[i, attributeTest]]] = y[i];
-                        ++subXAttributeFormCount[x[i, attributeTest]];
-                    }
-
-                    // Create tests
-                    var tests = new IDecisionTreeNode[attributeStateCount];
-                    for (var i = 0; i < attributeStateCount; i++)
-                    {
-                        if (subX[i].Length == 0)
+                        var attributeTest = BestAttribute(x, y, attributes);
+                        if (attributeTest == -1)
                         {
-                            tests[i] = new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
+                            return new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
                         }
-                        else
+
+                        attributes.Remove(attributeTest);
+                        var attributeStateCount = 0;
+                        for (var i = 0; i < y.Length; i++)
                         {
-                            tests[i] = IterativeDichotomiser3(subX[i], subY[i],
-                                attributes.GetRange(0, attributes.Count));
+                            if (x[i, attributeTest] > attributeStateCount)
+                            {
+                                attributeStateCount = x[i, attributeTest];
+                            }
                         }
+
+                        ++attributeStateCount;
+                        attributeStateCount = Math.Max(_discreteClasses * 2, attributeStateCount);
+
+                        // Split data
+                        var subX = new int[attributeStateCount][,];
+                        var subY = new int[attributeStateCount][];
+                        var attributeSubXCount = new int[attributeStateCount];
+                        for (var i = 0; i < y.Length; i++)
+                        {
+                            ++attributeSubXCount[x[i, attributeTest]];
+                        }
+
+                        var attributeLength = x.Length / y.Length;
+                        for (var i = 0; i < attributeStateCount; i++)
+                        {
+                            subX[i] = new int[attributeSubXCount[i], attributeLength];
+                            subY[i] = new int[attributeSubXCount[i]];
+                        }
+
+                        var subXAttributeFormCount = new int[attributeStateCount];
+                        for (var i = 0; i < y.Length; i++)
+                        {
+                            for (var j = 0; j < attributeLength; j++)
+                            {
+                                subX[x[i, attributeTest]][subXAttributeFormCount[x[i, attributeTest]], j] = x[i, j];
+                            }
+
+                            subY[x[i, attributeTest]][subXAttributeFormCount[x[i, attributeTest]]] = y[i];
+                            ++subXAttributeFormCount[x[i, attributeTest]];
+                        }
+
+                        // Create tests
+                        var tests = new IDecisionTreeNode[attributeStateCount];
+                        for (var i = 0; i < attributeStateCount; i++)
+                        {
+                            if (subX[i].Length == 0)
+                            {
+                                tests[i] = new DecisionTreeLeafNode(MajorLabel(y, distinctLabelCount));
+                            }
+                            else
+                            {
+                                tests[i] = IterativeDichotomiser3(subX[i], subY[i],
+                                    attributes.GetRange(0, attributes.Count));
+                            }
+                        }
+
+                        IDecisionTreeNode root = new DecisionTreeInternalNode(attributeTest, tests);
+
+                        return root;
                     }
-
-                    IDecisionTreeNode root = new DecisionTreeInternalNode(attributeTest, tests);
-
-                    return root;
-                }
             }
         }
 
