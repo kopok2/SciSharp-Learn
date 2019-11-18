@@ -47,7 +47,7 @@ namespace SciSharp_Learn
             double lambdaOld = 0;
             double gamma = 1;
             _gammaParam[0] = gamma;
-            var mean = (double) y.Sum() / y.Length;
+            var mean = (double)y.Sum() / y.Length;
             var gradient = new double[y.Length];
             for (var i = 0; i < y.Length; i++)
             {
@@ -97,7 +97,7 @@ namespace SciSharp_Learn
                 var yLoc = new double[y.Length];
                 for (var j = 0; j < y.Length; j++)
                 {
-                    yLoc[j] = zVal[(int) regressionSources[testing][1][j]];
+                    yLoc[j] = zVal[(int)regressionSources[testing][1][j]];
                 }
 
                 var newTree = Regression(regressionSources[testing][0], yLoc);
@@ -162,7 +162,7 @@ namespace SciSharp_Learn
                     sample[k] = x[j, k];
                 }
 
-                result[j] = (int) Math.Round(Infer(sample, _epochs));
+                result[j] = (int)Math.Round(Infer(sample, _epochs));
             }
 
             return result;
@@ -194,7 +194,7 @@ namespace SciSharp_Learn
             double gt1 = 0;
             for (var i = 0; i < inferBound; i++)
             {
-                var treeReg = sample[(int) _model[i + 1, 0]] < _model[i + 1, 1] ? _model[i + 1, 2] : _model[i + 1, 3];
+                var treeReg = sample[(int)_model[i + 1, 0]] < _model[i + 1, 1] ? _model[i + 1, 2] : _model[i + 1, 3];
                 ft1 = gt + _shrinkage * treeReg;
                 gt1 = (1 - _gammaParam[i + 1]) * ft1 + _gammaParam[i + 1] * ft;
                 gt = gt1;

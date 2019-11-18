@@ -1,7 +1,7 @@
 using System;
+using static SciSharp_Learn.LinAlgUtils;
 using static System.Array;
 using static System.Console;
-using static SciSharp_Learn.LinAlgUtils;
 
 namespace SciSharp_Learn
 {
@@ -17,7 +17,7 @@ namespace SciSharp_Learn
         private void Sgd(double[,] x, int[] y)
         {
             WriteLine("Performing Stochastic Gradient Descent.");
-            var actual = ConvertAll(y, item => (double) item);
+            var actual = ConvertAll(y, item => (double)item);
             for (var i = 0; i < _epochs; i++)
             {
                 var grad = LogisticGradient(x, BetaParam, actual);
